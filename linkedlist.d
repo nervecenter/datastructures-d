@@ -26,7 +26,7 @@ class LinkedList(T)
 	{
 		_count = 0;
 		_first = null;
-		debug writeln("Initialized list.");
+		debug writeln("Initialized list");
 	}
 
 	@property int count() { return _count; }
@@ -36,37 +36,45 @@ class LinkedList(T)
 		debug writeln("Getting node at: ", n);
 
 		Node* pt = _first;
-		
-		while (pt !is null)
+
+		for (int i = 0; i < n; i++)
 		{
-			n -= 1;
-			if (n == 0) break;
+			if (pt is null)
+				break;
 			pt = pt.next;
 		}
 
-		debug writeln("Got to node.");
+		debug writeln("Made it to node ", n);
 		
 		return pt;
 	}
 
-	Node* endPointer()
+	Node* endNode()
 	{
-		debug writeln("Getting end pointer.");
-		if (count == 0)
+		debug writeln("Getting last node");
+		Node* pt = _first;
+		while (pt !is null)
 		{
-			debug writeln("No elements, returning _first pointer.");
-			return _first;
+			pt = pt.next;
+			if (pt.next is null) break;
 		}
-		debug writeln("Getting last node's pointer.");
-		return nodeAt(count - 1).next;
+		return pt;
 	}
 	
 	void append(T val)
 	{
-		debug writeln("Appending new value.");
-		Node* endPt = endPointer();
-		endPt = new Node(val);
-		debug writeln("Allocated and set new node.");
+		debug writeln("Appending new value: ", val);
+		Node* last = endNode();
+
+		if (last is null)
+		{
+			debug writeln("No nodes, adding new first node");
+			_first = new Node(val);
+		}
+		else
+			last.next = new Node(val);
+
+		debug writeln("Allocated and set new node");
 		_count += 1;
 		//return this;
 	}
@@ -84,7 +92,7 @@ void main()
 	auto a = new LinkedList!int();
 	a.append(5);
 	a.append(2);
-	writeln(a.count);
-	writeln(a.at(0));
-	writeln(a.at(1));
+	writeln("Count is ", a.count);
+	writeln("First element: ", a.at(0));
+	writeln("Second element: ", a.at(1));
 }
