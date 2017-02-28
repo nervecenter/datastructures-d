@@ -55,8 +55,8 @@ class LinkedList(T)
 		Node* pt = _first;
 		while (pt !is null)
 		{
-			pt = pt.next;
 			if (pt.next is null) break;
+			pt = pt.next;
 		}
 		return pt;
 	}
